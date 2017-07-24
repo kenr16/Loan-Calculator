@@ -81,8 +81,11 @@ $(document).ready(function(){
       .attr("width", w)
       .attr("height", h)
       .style("stroke", "black")
-      .style("stroke-width", 1)
-      ;
+      .style("stroke-width", 1);
+
+  let div = d3.select("body").append("div")
+      .attr("class", "tooltip")
+      .style("opacity", 0);
 
   var allBars = svg.selectAll('rect.colorBar')
       .data(tomatoes)
@@ -109,20 +112,27 @@ $(document).ready(function(){
     allBars
       .transition()
       .duration(600)
-      .attr('fill', 'blue');
+      .attr('fill', 'SteelBlue');
 
 
     d3.select(this)
-      .style("stroke", "gold").style("stroke-width", 2)
+      .style("stroke", "DarkMagenta").style("stroke-width", 2)
       .transition()
       .duration(600)
-      .attr('fill', 'purple')
+      .attr('fill', 'BlueViolet')
       .attr('width', 32)
       .attr('x', function(d,i){
           return ((d.index) * (d.width+6))-4
       })
       .attr('y', (h/2) - d.height*3)
       .attr('height', d.height*3);
+
+    div.transition()
+      .duration(200)
+      .style("opacity", .9);
+    div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Color: </strong>" + d.color)
+      .style("left", (d3.event.pageX) + "px")
+      .style("top", (d3.event.pageY - 28) + "px");
 
 
   })
@@ -133,27 +143,30 @@ $(document).ready(function(){
 
     allBars
       .transition()
+      // .duration(600)
+      .style("stroke", "black")
+      .style("stroke-width", 1)
+      .transition()
       .duration(600)
+      .attr('width', function(d,i){
+          return d.width
+      })
+      .attr('height', function(d,i){
+          return d.height*2
+      })
+      .attr('x', function(d,i){
+          return (d.index) * (d.width+6)
+      })
+      .attr('y', function(d,i){
+          return (h/2) - d.height*2
+      })
       .attr('fill', 'red');
-
-    d3.select(this)
-        .style("stroke", "black")
-        .style("stroke-width", 1)
-        .transition()
-        .duration(600)
-        .attr('width', function(d,i){
-            return d.width
-        })
-        .attr('height', function(d,i){
-            return d.height*2
-        })
-        .attr('x', function(d,i){
-            return (d.index) * (d.width+6)
-        })
-        .attr('y', function(d,i){
-            return (h/2) - d.height*2
-        })
-        .attr('fill', 'red');
+      
+    div.transition()
+      .duration(500)
+      .style("opacity", 0);
+    // d3.select(this)
+    //     .attr('fill', 'red');
   };
 
 
