@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="js/d3.min.js"></script>
+  <script type="text/javascript" src="js/jquery-3.2.1.js"></script>
+  <script type="text/javascript" src="js/scripts.js"></script>
+  <link href="css/bootstrap.css" rel ="stylesheet" type="text/css" media="all" title="no title" charset="utf-8">
+  <link href="css/styles.css" rel="stylesheet" type="text/css" media="all" title="no title" charset="utf-8">
+  <title>D3 Loan Calculator</title>
+</head>
+
+<body>
+
+  <form id="inputForm">
+
+    <div class="form-group">
+      <label for="loan_amount">Loan amount:</label><br>
+      <input type="number" name="loan_amount" id="loan_amount" min="0"><br>
+      <small id="amount_help" class="form-text text-muted">This is the amount that you borrowed.</small><br>
+    </div>
+
+    <div class="form-group">
+      <label for="loan_years">Loan term in years:</label><br>
+      <input type="number" name="loan_years" id="loan_years" min="0"><br>
+      <small id="years_help" class="form-text text-muted">This is the number of years in the loan.</small><br>
+    </div>
+
+    <div class="form-group">
+      <label for="loan_months">Loan term in months:</label><br>
+      <input type="number" name="loan_months" id="loan_months" min="0"><br>
+      <small id="months_help" class="form-text text-muted">This is the number of months in the loan.</small><br>
+    </div>
+
+    <div class="form-group">
+      <label for="interest_rate">This is the interest rate of the loan:</label><br>
+      <input type="number" name="interest_rate" id="interest_rate" min="0"><br>
+      <small id="months_help" class="form-text text-muted">This is the interest rate of the loan.</small><br>
+    </div>
+
+    <div class="btn btn-primary">Submit</div>
+
+  </form>
+
+  <div id="viz"></div>
+
+</body>
+
+</html>
