@@ -51,40 +51,45 @@ $(document).ready(function(){
 
 
   var tomatoes = [
-    {"width":25,"height":83,"color":"red"},
-    {"width":25,"height":97,"color":"red"},
-    {"width":25,"height":77,"color":"red"},
-    {"width":25,"height":73,"color":"red"},
-    {"width":25,"height":89,"color":"red"},
-    {"width":25,"height":94,"color":"red"},
-    {"width":25,"height":97,"color":"red"},
-    {"width":25,"height":74,"color":"red"},
-    {"width":25,"height":91,"color":"red"},
-    {"width":25,"height":80,"color":"red"},
-    {"width":25,"height":86,"color":"red"},
-    {"width":25,"height":77,"color":"red"},
-    {"width":25,"height":80,"color":"red"},
-    {"width":25,"height":67,"color":"red"},
-    {"width":25,"height":79,"color":"red"},
-    {"width":25,"height":73,"color":"red"},
-    {"width":25,"height":84,"color":"red"},
-    {"width":25,"height":97,"color":"red"},
-    {"width":25,"height":98,"color":"red"},
-    {"width":25,"height":94,"color":"red"},
+    {"width":24,"height":83,"color":"red","index":0},
+    {"width":24,"height":97,"color":"red","index":1},
+    {"width":24,"height":77,"color":"red","index":2},
+    {"width":24,"height":73,"color":"red","index":3},
+    {"width":24,"height":89,"color":"red","index":4},
+    {"width":24,"height":94,"color":"red","index":5},
+    {"width":24,"height":97,"color":"red","index":6},
+    {"width":24,"height":74,"color":"red","index":7},
+    {"width":24,"height":91,"color":"red","index":8},
+    {"width":24,"height":80,"color":"red","index":9},
+    {"width":24,"height":86,"color":"red","index":10},
+    {"width":24,"height":77,"color":"red","index":11},
+    {"width":24,"height":80,"color":"red","index":12},
+    {"width":24,"height":67,"color":"red","index":13},
+    {"width":24,"height":79,"color":"red","index":14},
+    {"width":24,"height":73,"color":"red","index":15},
+    {"width":24,"height":84,"color":"red","index":16},
+    {"width":24,"height":97,"color":"red","index":17},
+    {"width":24,"height":98,"color":"red","index":18},
+    {"width":24,"height":94,"color":"red","index":19},
   ]
 
-  var w= 535;
-  var h= 250;
+  var w= 600;
+  var h= 600;
 
   var svg = d3.select("#graphDiv")
       .append("svg")
-      .attr("width", 1000)
-      .attr("height", 1000);
+      .attr("width", w)
+      .attr("height", h)
+      .style("stroke", "black")
+      .style("stroke-width", 1)
+      ;
 
-  svg.selectAll('rect.colorBar')
+  var allBars = svg.selectAll('rect.colorBar')
       .data(tomatoes)
       .enter()
       .append('rect')
+      .style("stroke", "black")
+      .style("stroke-width", 1)
       .attr('width', function(d,i){
           return d.width
       })
@@ -92,12 +97,64 @@ $(document).ready(function(){
           return d.height*2
       })
       .attr('x', function(d,i){
-          return i * (d.width+2)
+          return (d.index) * (d.width+6)
       })
       .attr('y', function(d,i){
-          return h - d.height*2
+          return (h/2) - d.height*2
       })
       .attr('fill', 'red');
+
+  allBars.on("mouseover", function(d) {
+
+    allBars
+      .transition()
+      .duration(600)
+      .attr('fill', 'blue');
+
+
+    d3.select(this)
+      .style("stroke", "gold").style("stroke-width", 2)
+      .transition()
+      .duration(600)
+      .attr('fill', 'purple')
+      .attr('width', 32)
+      .attr('x', function(d,i){
+          return ((d.index) * (d.width+6))-4
+      })
+      .attr('y', (h/2) - d.height*3)
+      .attr('height', d.height*3);
+
+
+  })
+
+  allBars.on("mouseout", hideData);
+
+  function hideData(){
+
+    allBars
+      .transition()
+      .duration(600)
+      .attr('fill', 'red');
+
+    d3.select(this)
+        .style("stroke", "black")
+        .style("stroke-width", 1)
+        .transition()
+        .duration(600)
+        .attr('width', function(d,i){
+            return d.width
+        })
+        .attr('height', function(d,i){
+            return d.height*2
+        })
+        .attr('x', function(d,i){
+            return (d.index) * (d.width+6)
+        })
+        .attr('y', function(d,i){
+            return (h/2) - d.height*2
+        })
+        .attr('fill', 'red');
+  };
 
 
 
