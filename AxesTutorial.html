@@ -15,20 +15,47 @@
 
       <script type="text/javascript">
 
-      var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
-                14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
-                24, 18, 25, 9, 3 ];
+      // var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+      //           14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+      //           24, 18, 25, 9, 3 ];
+      //
+      // d3.select("body").selectAll("div")
+      //   .data(dataset)
+      //   .enter()
+      //   .append("div")
+      //   // .classed("bar", true) This line does the same thing as the line below
+      //   .attr("class", "bar")
+      //   .style("height", function(d) {
+      //     var barHeight = d * 5;  //Scale up by factor of 5
+      //     return barHeight + "px";
+      //   });
 
-      d3.select("body").selectAll("div")
+      //Width and height
+      var w = 500;
+      var h = 100;
+
+      //Create SVG element
+      var svg = d3.select("body")
+                  .append("svg")
+                  .attr("width", w)
+                  .attr("height", h);
+
+      svg.selectAll("rect")
         .data(dataset)
         .enter()
-        .append("div")
-        // .classed("bar", true) This line does the same thing as the line below
-        .attr("class", "bar")
-        .style("height", function(d) {
-          var barHeight = d * 5;  //Scale up by factor of 5
-          return barHeight + "px";
-        });
+        .append("rect")
+        .attr("x", 0)
+        .attr("y", 0)
+        .attr("width", 20)
+        .attr("height", 100);
+
+
+
+
+
+
+
+
 
 
 
@@ -51,6 +78,9 @@
 
 
 
+
+
+<!--
 
 http://jobs.jobvite.com/renewfund/job/opOG5fwI/apply
 Apply here tomorrow!
@@ -81,4 +111,4 @@ Axes with dates attached to them!
 
 http://www.astro.sunysb.edu/fwalter/AST389/TEXTS/Nightfall.htm
 http://www.popularmechanics.com/culture/g1622/the-30-sci-fi-stories-everyone-should-read/
-Some Sci-Fi
+Some Sci-Fi -->
