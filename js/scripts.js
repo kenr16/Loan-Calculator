@@ -25,7 +25,7 @@ $(document).ready(function(){
           .attr("cx", 500)
           .attr("r", 10)
           .style("fill", "lightgreen")
-          .each("end", animateSecondStep);
+          .on("end", animateSecondStep);
   };
 
   function animateSecondStep(){
@@ -33,7 +33,7 @@ $(document).ready(function(){
         .transition()
           .duration(1000)
           .attr("cy", 500)
-          .each("end", animateThirdStep);
+          .on("end", animateThirdStep);
   };
 
   function animateThirdStep(){
@@ -45,12 +45,13 @@ $(document).ready(function(){
           .attr("cy", 50)
           .attr("r", 40)
           .style("fill", "white")
-          .each("end", animateThirdStep);
+          // .each("end", animateThirdStep)
+          ;
   };
 
 
 
-  var tomatoes = [
+  var loan_data = [
     {"width":24,"height":83,"color":"red","index":0},
     {"width":24,"height":97,"color":"red","index":1},
     {"width":24,"height":77,"color":"red","index":2},
@@ -88,7 +89,7 @@ $(document).ready(function(){
       .style("opacity", 0);
 
   var allBars = svg.selectAll('rect.colorBar')
-      .data(tomatoes)
+      .data(loan_data)
       .enter()
       .append('rect')
       .style("stroke", "black")
@@ -111,14 +112,14 @@ $(document).ready(function(){
 
     allBars
       .transition()
-      .duration(600)
+      .duration(300)
       .attr('fill', 'SteelBlue');
 
 
     d3.select(this)
       .style("stroke", "DarkMagenta").style("stroke-width", 2)
       .transition()
-      .duration(600)
+      .duration(300)
       .attr('fill', 'BlueViolet')
       .attr('width', 32)
       .attr('x', function(d,i){
@@ -143,11 +144,10 @@ $(document).ready(function(){
 
     allBars
       .transition()
-      // .duration(600)
       .style("stroke", "black")
       .style("stroke-width", 1)
       .transition()
-      .duration(600)
+      .duration(300)
       .attr('width', function(d,i){
           return d.width
       })
@@ -161,7 +161,7 @@ $(document).ready(function(){
           return (h/2) - d.height*2
       })
       .attr('fill', 'red');
-      
+
     div.transition()
       .duration(500)
       .style("opacity", 0);

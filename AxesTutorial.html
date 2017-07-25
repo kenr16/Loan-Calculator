@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>D3 Test</title>
+        <script type="text/javascript" src="js/d3.min.js"></script>
+    </head>
+    <body>
+
+      <div class="display: inline-block;
+        width: 20px;
+        height: 75px;
+        background-color: teal;">
+      </div>
+
+      <script type="text/javascript">
+
+      var dataset = [ 25, 7, 5, 26, 11, 8, 25, 14, 23, 19,
+                14, 11, 22, 29, 11, 13, 12, 17, 18, 10,
+                24, 18, 25, 9, 3 ];
+
+      d3.select("body").selectAll("div")
+        .data(dataset)
+        .enter()
+        .append("div")
+        // .classed("bar", true) This line does the same thing as the line below
+        .attr("class", "bar")
+        .style("height", function(d) {
+          var barHeight = d * 5;  //Scale up by factor of 5
+          return barHeight + "px";
+        });
+
+
+
+
+        </script>
+
+        <style>
+          div.bar {
+            display: inline-block;
+            width: 20px;
+            height: 75px;   /* We'll override this later */
+            background-color: teal;
+            margin-right: 2px; /* This could be IMMENSELY handy for spacing the bars in the graph. */
+          }
+        </style>
+
+    </body>
+</html>
+
+
+
+
+
+http://jobs.jobvite.com/renewfund/job/opOG5fwI/apply
+Apply here tomorrow!
+
+https://www.w3schools.com/colors/colors_names.asp
+https://www.w3schools.com/cssref/css_colors.asp
+List of CSS colors availible for use
+
+
+
+https://www.linkedin.com/in/ryan-mcalpin/
+http://mathforum.org/dr.math/faq/faq.interest.html
+This is useful for actual financial calculations
+http://www.bankrate.com/calculators/mortgages/loan-calculator.aspx?loanAmount=5000&years=6.000&terms=72&interestRate=4.50&loanStartDate=24+Jul+2017&email=&lightbox=true&show=true&showRt=false&prods=388&monthlyAdditionalAmount=0&yearlyAdditionalAmount=0&yearlyPaymentMonth=&oneTimeAdditionalPayment=0&oneTimeAdditionalPaymentInMY=&ic_id=mtg_loan_calc_amortization_btn
+This is the kind of pie chart that I wish to build
+http://zeroviscosity.com/d3-js-step-by-step/step-1-a-basic-pie-chart
+This is a step-by-step pie chart
+http://www.overfitted.com/blog/?p=302
+D3 in Rails for me!
+http://gregpark.io/blog/live-d3-rails-plot/
+
+https://www.dashingd3js.com/table-of-contents
+A MASSIVE D3 book that I could potentially study!
+
+
+http://bl.ocks.org/phoebebright/3059392
+Axes with dates attached to them!
+
+http://www.astro.sunysb.edu/fwalter/AST389/TEXTS/Nightfall.htm
+http://www.popularmechanics.com/culture/g1622/the-30-sci-fi-stories-everyone-should-read/
+Some Sci-Fi
