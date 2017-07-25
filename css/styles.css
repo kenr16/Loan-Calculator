@@ -10,3 +10,9 @@ div.tooltip {
     border-radius: 8px;
     pointer-events: none;
 }
+
+svg {
+    display:inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}

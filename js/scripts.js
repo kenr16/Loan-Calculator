@@ -13,6 +13,7 @@ $(document).ready(function(){
   var loanArray = [];
 
   $( "#submit_button" ).click(function() {
+    loanArray = [];
     var principal = parseFloat($("#loan_amount").val());
     var loanMonths = parseFloat($("#loan_months").val());
     var effectiveInterest = parseFloat($("#interest_rate").val())/1200;
@@ -22,29 +23,31 @@ $(document).ready(function(){
 
     var amountOwed = principal;
     var monthlyPayment = (principal*(effectiveInterest/(1-(1 + effectiveInterest)**(-1*loanMonths)))).toFixed(2);
-
+    var totalInterest = 0;
 
     for (i=1; i< loanMonths; i++) {
+      // var oneMonthInterest = amountOwed * effectiveInterest;
+      console.log(amountOwed);
+      // totalInterest += oneMonthInterest;
       amountOwed *= oneMonthInterest;
       amountOwed -= monthlyPayment;
-      var oneObject = {index: i, width: 24, amount: amountOwed, monthly: monthlyPayment};
+      var oneObject = {index: i, width: 10, amount: amountOwed, monthly: monthlyPayment};
       loanArray.push(oneObject);
     }
 
-    d3Plot(loanArray);
+    // console.log(totalInterest);
+
+    d3Plot(loanArray, principal);
 
   });
 
-  function test(loanArray) {
-    console.log(loanArray);
-  }
 
   // After 1 month:
 
-  function d3Plot(loanArray) {
+  function d3Plot(loanArray, principal) {
 
-    var w= 1000;
-    var h= 500;
+    var w = 2000;
+    var h = principal/80;
 
     var svg = d3.select("#graphDiv")
         .append("svg")
@@ -73,7 +76,7 @@ $(document).ready(function(){
             return (d.index) * (d.width+6)
         })
         .attr('y', function(d,i){
-            return (h/2) - d.amount/100;
+            return h - d.amount/100;
         })
         .attr('fill', 'red');
 
@@ -94,7 +97,7 @@ $(document).ready(function(){
         .attr('x', function(d,i){
             return ((d.index) * (d.width+6))-4
         })
-        .attr('y', (h/2) - d.amount/80)
+        .attr('y', h - d.amount/80)
         .attr('height', d.amount/80);
 
       div.transition()
@@ -127,7 +130,7 @@ $(document).ready(function(){
             return (d.index) * (d.width+6)
         })
         .attr('y', function(d,i){
-            return (h/2) - d.amount/100
+            return h - d.amount/100
         })
         .attr('fill', 'red');
 
