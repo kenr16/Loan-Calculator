@@ -26,12 +26,15 @@ $(document).ready(function(){
     var totalInterest = 0;
 
     for (i=1; i< loanMonths; i++) {
-      totalInterest += amountOwed * effectiveInterest;
-      afterInterest = amountOwed - totalInterest;
+      var currentInterest = amountOwed * effectiveInterest;
+
+      principalPayment = monthlyPayment - currentInterest;
+      interestPayment = currentInterest;
+
       principalCompounded *= oneMonthInterest;
       amountOwed *= oneMonthInterest;
       amountOwed -= monthlyPayment;
-      var oneObject = {index: i, width: 10, amount: amountOwed, monthly: monthlyPayment, principal: principalCompounded, base: afterInterest, interest: totalInterest};
+      var oneObject = {index: i, width: 10, amount: amountOwed, monthly: monthlyPayment, principal: principalCompounded, base: principalPayment, interest: interestPayment};
       if (i % 3 === 0) {
         loanArray.push(oneObject);
       }
