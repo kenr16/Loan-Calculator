@@ -13,8 +13,8 @@ div.tooltip {
 
 svg {
     display:inline-block;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin-top: 5px;
+    margin-bottom: 5px;
     box-shadow: 10px 10px 5px #888888;
 }
 

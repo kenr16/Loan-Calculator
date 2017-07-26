@@ -201,7 +201,11 @@ $(document).ready(function(){
         .attr('y', (h / 3)-(Math.min(w, h) / 3))
         .attr('x', (w * .85)-(Math.min(w, h) / 3))
         .on('end', function(d,i){
-          showPie(d.interest, d.base);
+          setTimeout(function(){
+             showPie(d.interest, d.base);
+          }, 100);
+
+
         });
 
 
