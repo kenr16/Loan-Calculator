@@ -50,16 +50,16 @@ $(document).ready(function(){
 
   function d3Plot(loanArray, principal) {
 
-    var w = 1000;
+    var w = 1250;
     var h = 500;
     var padding = 20;
 
     var xScale = d3.scaleLinear()
-      .domain([0, loanArray.length*3])
-      .range([padding, (w - padding)]);
+      .domain([0, (loanArray.length+1)*3])
+      .range([padding, (.75*w - padding)]);
 
     var yScale = d3.scaleLinear()
-      .domain([ padding , d3.max(loanArray, function(d,i) { return d.amount; }) ])
+      .domain([ padding , d3.max(loanArray, function(d,i) { return d.amount; })+500 ])
       .range([padding, (h - padding)]);
 
     var yScaleAxis = d3.scaleLinear()
@@ -90,7 +90,7 @@ $(document).ready(function(){
         .style("stroke", "black")
         .style("stroke-width", 2)
         .attr('width', function(d,i){
-            return (w / loanArray.length)-4
+            return (.75*w / loanArray.length)-4
         })
         .attr('x', function(d,i){
             // return (d.index) * (d.width+6);
@@ -185,57 +185,91 @@ $(document).ready(function(){
 
     allBars.on("click", function(d) {
 
-      if (loanRepayments) {
-        loanRepayments = false;
 
-        allBars
-          .transition()
-          .duration(300)
-          .attr('fill', 'red')
-          .attr('x', function(d,i){
-              return (d.index) * (d.width+6);
-          })
-          .attr('y', function(d,i){
-              return h - d.principal/500;
-          })
-          .attr('height', function(d,i){
-              return d.principal/500;
-          })
-          .attr('width', d.width)
-          ;
+      showPie();
+      // if (loanRepayments) {
+    //     loanRepayments = false;
+    //
+    //     allBars
+    //       .transition()
+    //       .duration(300)
+    //       .attr('fill', 'red')
+    //       .attr('x', function(d,i){
+    //           return (d.index) * (d.width+6);
+    //       })
+    //       .attr('y', function(d,i){
+    //           return h - d.principal/500;
+    //       })
+    //       .attr('height', function(d,i){
+    //           return d.principal/500;
+    //       })
+    //       .attr('width', d.width)
+    //       ;
+    //
+    //     div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Owed Without Payment: </strong>" + d.principal.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
+    //       .style("left", (d3.event.pageX) + "px")
+    //       .style("top", (d3.event.pageY - 28) + "px");
+    //   } else if (!loanRepayments) {
+    //     loanRepayments = true;
+    //
+    //     allBars
+    //       .transition()
+    //       .duration(300)
+    //       .attr('fill', 'red')
+    //       .attr('y', function(d,i){
+    //           return h - d.amount/100;
+    //       })
+    //       .attr('x', function(d,i){
+    //           return (d.index) * (d.width+6)
+    //       })
+    //
+    //       .attr('height', function(d,i){
+    //           return d.amount/100;
+    //       })
+    //       ;
+    //
+    //
+    //     div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
+    //       .style("left", (d3.event.pageX) + "px")
+    //       .style("top", (d3.event.pageY - 28) + "px");
+    //   }
+  });
 
-        div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Owed Without Payment: </strong>" + d.principal.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      } else if (!loanRepayments) {
-        loanRepayments = true;
 
-        allBars
-          .transition()
-          .duration(300)
-          .attr('fill', 'red')
-          .attr('y', function(d,i){
-              return h - d.amount/100;
-          })
-          .attr('x', function(d,i){
-              return (d.index) * (d.width+6)
-          })
+    function showPie() {
 
-          .attr('height', function(d,i){
-              return d.amount/100;
-          })
-          ;
+      radius = Math.min(w, h) / 3,
+      g = svg.append("g").attr("transform", "translate(" + w * .85 + "," + h / 3 + ")");
 
+      var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
-        div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      }
+      var pie = d3.pie()
+        .sort(null)
+        .value(function(d) { return d.amount; });
 
+      var path = d3.arc()
+        .outerRadius(radius - 10)
+        .innerRadius(10);
 
+      var label = d3.arc()
+        .outerRadius(radius - 40)
+        .innerRadius(radius - 40);
 
-    })
+      var arc = g.selectAll(".arc")
+        .data(pie(loanArray))
+        .enter().append("g")
+        .attr("class", "arc");
 
+      arc.append("path")
+        .attr("d", path)
+        .attr("fill", function(d) { return color(d.amount); });
+
+      arc.append("text")
+        .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
+        .attr("dy", "0.35em")
+        .text(function(d) { return d.amount; });
+
+    }
   }
 
 
