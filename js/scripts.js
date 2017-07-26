@@ -127,6 +127,8 @@ $(document).ready(function(){
 
     allBars.on("mouseover", function(d) {
 
+      showPie(d.interest, d.base);
+
       if (loanRepayments) {
         allBars
           .transition()
@@ -221,11 +223,7 @@ $(document).ready(function(){
 
         });
 
-
-
-
-
-
+    });
 
       // if (loanRepayments) {
     //     loanRepayments = false;
@@ -273,7 +271,6 @@ $(document).ready(function(){
     //       .style("left", (d3.event.pageX) + "px")
     //       .style("top", (d3.event.pageY - 28) + "px");
     //   }
-  });
 
 
     function showPie(interest, base) {
@@ -314,16 +311,13 @@ $(document).ready(function(){
         .data(pie(data))
         .enter().append("g")
         .attr("class", "arc")
-        .style("opacity", .8)
+        .style("opacity", .7)
         .style("stroke", "Gold").style("stroke-width", 1)
         .style("font-size", "20px");
 
       arc.append("path")
         .attr("d", path)
-
         .attr("fill", function(d,i) { return color(i); });
-        // .attr("fill", 'red');
-
 
       arc.append("text")
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
