@@ -185,8 +185,21 @@ $(document).ready(function(){
 
     allBars.on("click", function(d) {
 
+      loanRepayments = false;
 
-      showPie();
+      d3.select(this).transition()
+        .duration(500)
+        .attr('height', (Math.min(w, h) / 1.5))
+        .attr('width', (Math.min(w, h) / 1.5))
+        .attr('fill', 'steelblue')
+        .attr('rx', 20)
+        .attr('ry', 20)
+        .attr('y', (h / 3)-(Math.min(w, h) / 3))
+        .attr('x', (w * .85)-(Math.min(w, h) / 3))
+        .on('end', showPie());
+
+
+
       // if (loanRepayments) {
     //     loanRepayments = false;
     //
@@ -249,7 +262,7 @@ $(document).ready(function(){
 
       var path = d3.arc()
         .outerRadius(radius - 10)
-        .innerRadius(10);
+        .innerRadius(20);
 
       var label = d3.arc()
         .outerRadius(radius - 40)
