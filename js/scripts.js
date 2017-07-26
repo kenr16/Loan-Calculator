@@ -105,7 +105,7 @@ $(document).ready(function(){
             return h;
         })
         .attr("fill", function(d,i) {
-          return "rgb(0, 0, " + (100 + i*10) + ")";
+          return "rgb( " + 0 + "," + 0 + "," + (100 + i*10) + ")";
         });
 
     allBars.transition()
@@ -177,7 +177,7 @@ $(document).ready(function(){
               return h - yScale(d.amount) - (1.1*padding);
           })
           .attr("fill", function(d,i) {
-            return "rgb(0, 0, " + (100 + i*10) + ")";
+            return "rgb( " + 0 + "," + 0 + "," + (100 + i*10) + ")";
           });
       }
     };
