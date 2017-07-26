@@ -265,17 +265,29 @@ $(document).ready(function(){
 
     function showPie(interest, base) {
 
-      var data = [interest, base];
+      var data = [{
+                     label: 'Interest',
+                     count: interest
+                   }, {
+                     label: 'Principal',
+                     count: base
+                   }
+                 ];
 
       radius = Math.min(w, h) / 3,
       g = svg.append("g").attr("transform", "translate(" + w * .85 + "," + h / 3 + ")");
 
-      var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+      // var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
+
+      var color = d3.scaleOrdinal()
+        .domain(["Interest", "Principal"])
+        .range(["red" , "blue"]);
 
       var pie = d3.pie()
-        .sort(null)
-        // .value(function(d) { return d.amount; })
-        ;
+       .value(function(d) {
+         return d.count;
+       })
+       .sort(null);
 
       var path = d3.arc()
         .outerRadius(radius - 10)
@@ -292,7 +304,10 @@ $(document).ready(function(){
 
       arc.append("path")
         .attr("d", path)
-        .attr("fill", function(d) { return color(d.amount); });
+
+        .attr("fill", function(d) { return color(data); });
+        // .attr("fill", 'red');
+
 
       arc.append("text")
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
