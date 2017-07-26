@@ -151,7 +151,7 @@ $(document).ready(function(){
         div.transition()
           .duration(200)
           .style("opacity", .9);
-        div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
+        div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: $</strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: $</strong>" + d.monthly)
           .style("left", (d3.event.pageX) + "px")
           .style("top", (d3.event.pageY - 28) + "px");
       } else if (!loanRepayments) {
