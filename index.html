@@ -41,9 +41,23 @@
 
   </form>
 
-  <div id="viz"></div>
-
   <div id="graphDiv"></div>
+
+  <!-- particles.js container -->
+  <div id="particles-js"></div>
+
+  <!-- scripts -->
+  <script src="js/particles.js"></script>
+  <script src="js/scripts.js"></script>
+
+  <script>
+
+    count_particles = document.querySelector('.js-count-particles');
+    update = function() {
+      requestAnimationFrame(update);
+    };
+    requestAnimationFrame(update);
+  </script>
 
 </body>
 
