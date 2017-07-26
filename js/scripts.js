@@ -40,8 +40,6 @@ $(document).ready(function(){
       }
     }
 
-    // console.log(totalInterest);
-
     d3Plot(loanArray, principal);
 
   });
@@ -91,6 +89,7 @@ $(document).ready(function(){
         .append('rect')
         .style("stroke", "black")
         .style("stroke-width", 2)
+        .style("opacity", .9)
         .attr('width', function(d,i){
             return (.75*w / loanArray.length)-4
         })
@@ -178,7 +177,19 @@ $(document).ready(function(){
           })
           .attr("fill", function(d,i) {
             return "rgb( " + 0 + "," + 0 + "," + (100 + i*10) + ")";
-          });
+          })
+          .attr('width', function(d,i){
+              return (.75*w / loanArray.length)-4
+          })
+          .attr('x', function(d,i){
+              // return (d.index) * (d.width+6);
+              return xScale(i)*3 - (.8*padding);
+          })
+          .style("opacity", .9)
+          .attr('rx', 0)
+          .attr('ry', 0)
+
+          ;
       }
     };
 
@@ -187,13 +198,14 @@ $(document).ready(function(){
 
     allBars.on("click", function(d) {
 
-      loanRepayments = false;
+      // loanRepayments = false;
 
       d3.select(this).transition()
         .duration(500)
         .attr('height', (Math.min(w, h) / 1.5))
         .attr('width', (Math.min(w, h) / 1.5))
-        .attr('fill', 'LightSkyBlue')
+        .attr('fill', 'steelblue')
+        .style("opacity", .5)
         .style("stroke", "black")
         .style("stroke-width", 1)
         .attr('rx', 20)
@@ -280,7 +292,7 @@ $(document).ready(function(){
       // var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
       var color = d3.scaleOrdinal()
-        .domain(["Interest", "Principal"])
+        .domain([0, 1])
         .range(["red" , "blue"]);
 
       var pie = d3.pie()
@@ -300,19 +312,22 @@ $(document).ready(function(){
       var arc = g.selectAll(".arc")
         .data(pie(data))
         .enter().append("g")
-        .attr("class", "arc");
+        .attr("class", "arc")
+        .style("opacity", .8)
+        .style("stroke", "Gold").style("stroke-width", 1)
+        .style("font-size", "20px");
 
       arc.append("path")
         .attr("d", path)
 
-        .attr("fill", function(d) { return color(data); });
+        .attr("fill", function(d,i) { return color(i); });
         // .attr("fill", 'red');
 
 
       arc.append("text")
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
         .attr("dy", "0.35em")
-        .text(function(d) { return d.amount; });
+        .text(function(d) { return d.data.label; });
 
     }
   }
