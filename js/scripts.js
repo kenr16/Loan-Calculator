@@ -97,14 +97,22 @@ $(document).ready(function(){
             return xScale(i)*3 - (.8*padding);
         })
         .attr('height', function(d,i){
+            return 0;
+        })
+        .attr('y', function(d,i){
+            return h;
+        })
+        .attr("fill", function(d,i) {
+          return "rgb(0, 0, " + (100 + i*10) + ")";
+        });
+
+    allBars.transition()
+        .duration(600)
+        .attr('height', function(d,i){
             return yScale(d.amount);
         })
         .attr('y', function(d,i){
             return h - yScale(d.amount) - (1.1*padding);
-        })
-        .attr("fill", function(d,i) {
-          return "rgb(0, 0, " + (100 + i*10) + ")";
-
         });
 
     svg.append("g")
