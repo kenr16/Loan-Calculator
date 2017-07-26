@@ -20,19 +20,18 @@ $(document).ready(function(){
     var oneMonthInterest = (1+(effectiveInterest));
 
 
-
     var amountOwed = principal;
     var principalCompounded = principal;
     var monthlyPayment = (principal*(effectiveInterest/(1-(1 + effectiveInterest)**(-1*loanMonths)))).toFixed(2);
     var totalInterest = 0;
 
     for (i=1; i< loanMonths; i++) {
-      // var oneMonthInterest = amountOwed * effectiveInterest;
-      // totalInterest += oneMonthInterest;
+      totalInterest += amountOwed * effectiveInterest;
+      afterInterest = amountOwed - totalInterest;
       principalCompounded *= oneMonthInterest;
       amountOwed *= oneMonthInterest;
       amountOwed -= monthlyPayment;
-      var oneObject = {index: i, width: 10, amount: amountOwed, monthly: monthlyPayment, principal: principalCompounded};
+      var oneObject = {index: i, width: 10, amount: amountOwed, monthly: monthlyPayment, principal: principalCompounded, base: afterInterest, interest: totalInterest};
       if (i % 3 === 0) {
         loanArray.push(oneObject);
       }
@@ -48,7 +47,7 @@ $(document).ready(function(){
   // After 1 month:
   var loanRepayments = true;
 
-  function d3Plot(loanArray, principal) {
+  function d3Plot(loanArray) {
 
     var w = 1250;
     var h = 500;
@@ -191,12 +190,20 @@ $(document).ready(function(){
         .duration(500)
         .attr('height', (Math.min(w, h) / 1.5))
         .attr('width', (Math.min(w, h) / 1.5))
-        .attr('fill', 'steelblue')
+        .attr('fill', 'LightSkyBlue')
+        .style("stroke", "black")
+        .style("stroke-width", 1)
         .attr('rx', 20)
         .attr('ry', 20)
         .attr('y', (h / 3)-(Math.min(w, h) / 3))
         .attr('x', (w * .85)-(Math.min(w, h) / 3))
-        .on('end', showPie());
+        .on('end', function(d,i){
+          showPie(d.interest, d.base);
+        });
+
+
+
+
 
 
 
@@ -249,7 +256,9 @@ $(document).ready(function(){
   });
 
 
-    function showPie() {
+    function showPie(interest, base) {
+
+      var data = [interest, base];
 
       radius = Math.min(w, h) / 3,
       g = svg.append("g").attr("transform", "translate(" + w * .85 + "," + h / 3 + ")");
@@ -258,7 +267,8 @@ $(document).ready(function(){
 
       var pie = d3.pie()
         .sort(null)
-        .value(function(d) { return d.amount; });
+        // .value(function(d) { return d.amount; })
+        ;
 
       var path = d3.arc()
         .outerRadius(radius - 10)
@@ -269,7 +279,7 @@ $(document).ready(function(){
         .innerRadius(radius - 40);
 
       var arc = g.selectAll(".arc")
-        .data(pie(loanArray))
+        .data(pie(data))
         .enter().append("g")
         .attr("class", "arc");
 
