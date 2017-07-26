@@ -90,7 +90,7 @@ $(document).ready(function(){
         .append('rect')
         .style("stroke", "black")
         .style("stroke-width", 2)
-        .style("opacity", .9)
+        .style("opacity", .7)
         .attr('width', function(d,i){
             return (.75*w / loanArray.length)-4
         })
@@ -287,6 +287,7 @@ $(document).ready(function(){
       radius = Math.min(w, h) / 3,
       g = svg.append("g").attr("transform", "translate(" + w * .85 + "," + h / 3 + ")");
 
+      svg.selectAll(".arc").remove();
       // var color = d3.scaleOrdinal(["#98abc5", "#8a89a6", "#7b6888", "#6b486b", "#a05d56", "#d0743c", "#ff8c00"]);
 
       var color = d3.scaleOrdinal()
@@ -304,24 +305,27 @@ $(document).ready(function(){
         .innerRadius(20);
 
       var label = d3.arc()
-        .outerRadius(radius - 40)
-        .innerRadius(radius - 40);
+        .outerRadius(radius - 60)
+        .innerRadius(radius - 60);
 
       var arc = g.selectAll(".arc")
         .data(pie(data))
         .enter().append("g")
         .attr("class", "arc")
-        .style("opacity", .7)
-        .style("stroke", "Gold").style("stroke-width", 1)
-        .style("font-size", "20px");
+        .style("opacity", .6)
+        .style("stroke", "Gold").style("stroke-width", 2)
+        ;
 
       arc.append("path")
         .attr("d", path)
+        .style("stroke", "black").style("stroke-width", 2)
         .attr("fill", function(d,i) { return color(i); });
 
       arc.append("text")
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
-        .attr("dy", "0.35em")
+        .attr("dy", "0.0em")
+        .style("font-size", "20px")
+        .style("opacity", 2)
         .text(function(d) { return d.data.label; });
 
     }
