@@ -72,7 +72,6 @@ $(document).ready(function(){
     var yAxis = d3.axisLeft()
       .scale(yScaleAxis);
 
-
     var svg = d3.select("#graphDiv")
         .append("svg")
         .attr("width", w)
@@ -116,68 +115,62 @@ $(document).ready(function(){
       .attr("transform", "translate(" + 2*padding + "," + 0 + ")")
       .call(yAxis);
 
-    // allBars.on("mouseover", function(d) {
-    //
-    //   if (loanRepayments) {
-    //     allBars
-    //       .transition()
-    //       .duration(300)
-    //       .attr('fill', 'SteelBlue');
-    //
-    //     d3.select(this)
-    //       .style("stroke", "DarkMagenta").style("stroke-width", 2)
-    //       .transition()
-    //       .duration(300)
-    //       .attr('fill', 'BlueViolet')
-    //       .attr('width', 14)
-    //       .attr('x', function(d,i){
-    //           return ((d.index) * (d.width+6))-2
-    //       })
-    //       .attr('y', h - d.amount/80)
-    //       .attr('height', d.amount/80);
-    //
-    //     div.transition()
-    //       .duration(200)
-    //       .style("opacity", .9);
-    //     div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
-    //       .style("left", (d3.event.pageX) + "px")
-    //       .style("top", (d3.event.pageY - 28) + "px");
-    //   } else if (!loanRepayments) {
-    //
-    //
-    //   }
-    // })
-    //
-    // allBars.on("mouseout", hideData);
-    //
-    // function hideData(){
-    //
-    //   div.transition()
-    //     .duration(500)
-    //     .style("opacity", 0);
-    //
-    //   if (loanRepayments) {
-    //     allBars
-    //       .transition()
-    //       .style("stroke", "black")
-    //       .style("stroke-width", 1)
-    //       .transition()
-    //       .duration(300)
-    //       .attr('width', function(d,i){
-    //           return d.width
-    //       })
-    //       .attr('height', function(d,i){
-    //           return d.amount/100;
-    //       })
-    //       .attr('x', function(d,i){
-    //           return (d.index) * (d.width+6)
-    //       })
-    //       .attr('y', function(d,i){
-    //           return h - d.amount/100
-    //       })
-    //       .attr('fill', 'red');
-    //   }
-    // };
+    allBars.on("mouseover", function(d) {
+
+      if (loanRepayments) {
+        allBars
+          .transition()
+          .duration(300)
+          .attr('fill', 'SteelBlue');
+
+        d3.select(this)
+          .style("stroke", "Gold").style("stroke-width", 3)
+          .transition()
+          .duration(300)
+          .attr('fill', 'BlueViolet')
+
+          .attr('height', function(d,i){
+              return yScale(d.amount)*1.2;
+          })
+          .attr('y', function(d,i){
+              return h - yScale(d.amount)*1.2 - (1.1*padding);
+          });
+
+        div.transition()
+          .duration(200)
+          .style("opacity", .9);
+        div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
+          .style("left", (d3.event.pageX) + "px")
+          .style("top", (d3.event.pageY - 28) + "px");
+      } else if (!loanRepayments) {
+
+
+      }
+    })
+
+    allBars.on("mouseout", hideData);
+
+    function hideData(){
+      div.transition()
+        .duration(500)
+        .style("opacity", 0);
+
+      if (loanRepayments) {
+
+        allBars
+          .style("stroke", "black")
+          .style("stroke-width", 2)
+          .attr('height', function(d,i){
+              return yScale(d.amount);
+          })
+          .attr('y', function(d,i){
+              return h - yScale(d.amount) - (1.1*padding);
+          })
+          .attr("fill", function(d,i) {
+            return "rgb(0, 0, " + (100 + i*10) + ")";
+          });
+      }
+    };
 
 
 
