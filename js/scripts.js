@@ -33,7 +33,9 @@ $(document).ready(function(){
       amountOwed *= oneMonthInterest;
       amountOwed -= monthlyPayment;
       var oneObject = {index: i, width: 10, amount: amountOwed, monthly: monthlyPayment, principal: principalCompounded};
-      loanArray.push(oneObject);
+      if (i % 3 === 0) {
+        loanArray.push(oneObject);
+      }
     }
 
     // console.log(totalInterest);
@@ -48,8 +50,28 @@ $(document).ready(function(){
 
   function d3Plot(loanArray, principal) {
 
-    var w = 2000;
-    var h = principal/60;
+    var w = 1000;
+    var h = 500;
+    var padding = 20;
+
+    var xScale = d3.scaleLinear()
+      .domain([0, loanArray.length*3])
+      .range([padding, (w - padding)]);
+
+    var yScale = d3.scaleLinear()
+      .domain([ padding , d3.max(loanArray, function(d,i) { return d.amount; }) ])
+      .range([padding, (h - padding)]);
+
+    var yScaleAxis = d3.scaleLinear()
+      .domain([ d3.max(loanArray, function(d,i) { return d.amount; }), padding ])
+      .range([padding, (h - padding)]);
+
+    var xAxis = d3.axisBottom()
+      .scale(xScale);
+
+    var yAxis = d3.axisLeft()
+      .scale(yScaleAxis);
+
 
     var svg = d3.select("#graphDiv")
         .append("svg")
@@ -67,83 +89,95 @@ $(document).ready(function(){
         .enter()
         .append('rect')
         .style("stroke", "black")
-        .style("stroke-width", 1)
+        .style("stroke-width", 2)
         .attr('width', function(d,i){
-            return d.width
-        })
-        .attr('height', function(d,i){
-            return d.amount/100;
+            return (w / loanArray.length)-4
         })
         .attr('x', function(d,i){
-            return (d.index) * (d.width+6)
+            // return (d.index) * (d.width+6);
+            return xScale(i)*3 - (.8*padding);
+        })
+        .attr('height', function(d,i){
+            return yScale(d.amount);
         })
         .attr('y', function(d,i){
-            return h - d.amount/100;
+            return h - yScale(d.amount) - (1.1*padding);
         })
-        .attr('fill', 'red');
+        .attr("fill", function(d,i) {
+          return "rgb(0, 0, " + (100 + i*10) + ")";
 
-    allBars.on("mouseover", function(d) {
+        });
 
-      if (loanRepayments) {
-        allBars
-          .transition()
-          .duration(300)
-          .attr('fill', 'SteelBlue');
+    svg.append("g")
+      .attr("transform", "translate(" + padding + "," + (h-20) + ")")
+      .call(xAxis);
 
-        d3.select(this)
-          .style("stroke", "DarkMagenta").style("stroke-width", 2)
-          .transition()
-          .duration(300)
-          .attr('fill', 'BlueViolet')
-          .attr('width', 14)
-          .attr('x', function(d,i){
-              return ((d.index) * (d.width+6))-2
-          })
-          .attr('y', h - d.amount/80)
-          .attr('height', d.amount/80);
+    svg.append("g")
+      .attr("transform", "translate(" + 2*padding + "," + 0 + ")")
+      .call(yAxis);
 
-        div.transition()
-          .duration(200)
-          .style("opacity", .9);
-        div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
-          .style("left", (d3.event.pageX) + "px")
-          .style("top", (d3.event.pageY - 28) + "px");
-      } else if (!loanRepayments) {
-        
-
-      }
-    })
-
-    allBars.on("mouseout", hideData);
-
-    function hideData(){
-
-      if (loanRepayments) {
-        allBars
-          .transition()
-          .style("stroke", "black")
-          .style("stroke-width", 1)
-          .transition()
-          .duration(300)
-          .attr('width', function(d,i){
-              return d.width
-          })
-          .attr('height', function(d,i){
-              return d.amount/100;
-          })
-          .attr('x', function(d,i){
-              return (d.index) * (d.width+6)
-          })
-          .attr('y', function(d,i){
-              return h - d.amount/100
-          })
-          .attr('fill', 'red');
-
-        div.transition()
-          .duration(500)
-          .style("opacity", 0);
-      }
-    };
+    // allBars.on("mouseover", function(d) {
+    //
+    //   if (loanRepayments) {
+    //     allBars
+    //       .transition()
+    //       .duration(300)
+    //       .attr('fill', 'SteelBlue');
+    //
+    //     d3.select(this)
+    //       .style("stroke", "DarkMagenta").style("stroke-width", 2)
+    //       .transition()
+    //       .duration(300)
+    //       .attr('fill', 'BlueViolet')
+    //       .attr('width', 14)
+    //       .attr('x', function(d,i){
+    //           return ((d.index) * (d.width+6))-2
+    //       })
+    //       .attr('y', h - d.amount/80)
+    //       .attr('height', d.amount/80);
+    //
+    //     div.transition()
+    //       .duration(200)
+    //       .style("opacity", .9);
+    //     div.html("<strong> Month: </strong>" + d.index + "<br/> <strong> Amount Still Owed: </strong>" + d.amount.toFixed(2) + "<br/> <strong> Monthly Payment: </strong>" + d.monthly)
+    //       .style("left", (d3.event.pageX) + "px")
+    //       .style("top", (d3.event.pageY - 28) + "px");
+    //   } else if (!loanRepayments) {
+    //
+    //
+    //   }
+    // })
+    //
+    // allBars.on("mouseout", hideData);
+    //
+    // function hideData(){
+    //
+    //   div.transition()
+    //     .duration(500)
+    //     .style("opacity", 0);
+    //
+    //   if (loanRepayments) {
+    //     allBars
+    //       .transition()
+    //       .style("stroke", "black")
+    //       .style("stroke-width", 1)
+    //       .transition()
+    //       .duration(300)
+    //       .attr('width', function(d,i){
+    //           return d.width
+    //       })
+    //       .attr('height', function(d,i){
+    //           return d.amount/100;
+    //       })
+    //       .attr('x', function(d,i){
+    //           return (d.index) * (d.width+6)
+    //       })
+    //       .attr('y', function(d,i){
+    //           return h - d.amount/100
+    //       })
+    //       .attr('fill', 'red');
+    //   }
+    // };
 
 
 
@@ -157,11 +191,15 @@ $(document).ready(function(){
           .transition()
           .duration(300)
           .attr('fill', 'red')
-          .attr('y', h - d.principal/100)
           .attr('x', function(d,i){
-              return (d.index) * (d.width+6)
+              return (d.index) * (d.width+6);
           })
-          .attr('height', d.principal/100)
+          .attr('y', function(d,i){
+              return h - d.principal/500;
+          })
+          .attr('height', function(d,i){
+              return d.principal/500;
+          })
           .attr('width', d.width)
           ;
 
