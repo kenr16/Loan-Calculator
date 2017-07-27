@@ -119,11 +119,13 @@ $(document).ready(function(){
 
     svg.append("g")
       .attr("transform", "translate(" + padding + "," + (h-20) + ")")
-      .call(xAxis);
+      .call(xAxis)
+      .style("stroke", "lightgrey").style("stroke-width", 1);
 
     svg.append("g")
       .attr("transform", "translate(" + 2*padding + "," + 0 + ")")
-      .call(yAxis);
+      .call(yAxis)
+      .style("stroke", "lightgrey").style("stroke-width", 1);
 
     allBars.on("mouseover", function(d) {
 
@@ -313,7 +315,7 @@ $(document).ready(function(){
         .enter().append("g")
         .attr("class", "arc")
         .style("opacity", .6)
-        .style("stroke", "Gold").style("stroke-width", 2)
+        .style("stroke", "white").style("stroke-width", 1)
         ;
 
       arc.append("path")
@@ -324,7 +326,7 @@ $(document).ready(function(){
       arc.append("text")
         .attr("transform", function(d) { return "translate(" + label.centroid(d) + ")"; })
         .attr("dy", "0.0em")
-        .style("font-size", "20px")
+        .style("font-size", "15px")
         .style("opacity", 2)
         .text(function(d) { return d.data.label; });
 
