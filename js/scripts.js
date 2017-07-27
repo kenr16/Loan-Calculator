@@ -1,5 +1,9 @@
 $(document).ready(function(){
 
+// *********************************************************************
+//   jQuery.js scripts beyond this point.
+// *********************************************************************
+
   $( "#loan_years" ).change(function() {
     var years = parseFloat($( "#loan_years" ).val());
     $("#loan_months").val( years*12 )
@@ -44,6 +48,12 @@ $(document).ready(function(){
     d3Plot(loanArray, principal);
 
   });
+
+
+
+// *********************************************************************
+//   d3.js scripts beyond this point.
+// *********************************************************************
 
 
   // After 1 month:
@@ -333,11 +343,11 @@ $(document).ready(function(){
     }
   }
 
-});
 
 
-
-
+// *********************************************************************
+//   Particle.js scripts beyond this point.
+// *********************************************************************
 particlesJS('particles-js',
 
   {
@@ -458,3 +468,5 @@ particlesJS('particles-js',
   }
 
 );
+
+});
